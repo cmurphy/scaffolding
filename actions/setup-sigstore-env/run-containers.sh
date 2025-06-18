@@ -20,26 +20,26 @@
 CLONE_DIR="${CLONE_DIR:-$(mktemp -d)}"
 CWD="$(pwd)"
 
-echo "setting up OIDC provider"
-pushd ./fakeoidc || return
-docker compose up --wait
-# the fakeoidc container's hostname must be the same, both from within fulcio and from this host machine.
-HOST="${HOST:-$(hostname)}"
-export OIDC_URL="http://${HOST}:8080"
-export FULCIO_CONFIG=$CLONE_DIR/fulcio-config.json
-cat <<EOF > "$FULCIO_CONFIG"
-{
-  "OIDCIssuers": {
-    "$OIDC_URL": {
-      "IssuerURL": "$OIDC_URL",
-      "ClientID": "sigstore",
-      "Type": "email"
-    }
-  }
-}
-EOF
-popd || return
-
+#echo "setting up OIDC provider"
+#pushd ./fakeoidc || return
+#docker compose up --wait
+## the fakeoidc container's hostname must be the same, both from within fulcio and from this host machine.
+#HOST="${HOST:-$(hostname)}"
+#export OIDC_URL="http://${HOST}:8080"
+#export FULCIO_CONFIG=$CLONE_DIR/fulcio-config.json
+#cat <<EOF > "$FULCIO_CONFIG"
+#{
+#  "OIDCIssuers": {
+#    "$OIDC_URL": {
+#      "IssuerURL": "$OIDC_URL",
+#      "ClientID": "sigstore",
+#      "Type": "email"
+#    }
+#  }
+#}
+#EOF
+#popd || return
+#
 echo "downloading service repos"
 pushd "$CLONE_DIR" || return
 FULCIO_REPO="${FULCIO_REPO:-sigstore/fulcio}"
@@ -63,44 +63,44 @@ for owner_repo in "${OWNER_REPOS[@]}"; do
     fi
 done
 export CT_LOG_KEY="$CLONE_DIR/fulcio/config/ctfe/pubkey.pem"
-
-echo "starting services"
-export FULCIO_METRICS_PORT=2113
-for owner_repo in "${OWNER_REPOS[@]}"; do
-    repo=$(basename "$owner_repo")
-    pushd "$repo" || return
-    if [[ "$repo" == "fulcio" ]]; then
-      # create the fulcio_default network by running `compose up`.
-      docker compose up -d
-      # then quickly attach the fakeoidc container to the fulcio_default network.
-      docker network inspect fulcio_default | grep fakeoidc || docker network connect --alias "$HOST" fulcio_default fakeoidc || return
-    fi
-    docker compose up --wait || return
-    popd || return
-done
-export TSA_URL="http://${HOST}:3004"
-popd || return
-
-export OIDC_TOKEN="$CLONE_DIR"/token
-curl -o "$OIDC_TOKEN" "$OIDC_URL"/token || return
-
-stop_services() {
-  pushd ./fakeoidc || return
-  docker compose down --volumes
-  popd || return
-  pushd "$CLONE_DIR" || return
-  for owner_repo in "${OWNER_REPOS[@]}"; do
-    repo=$(basename "$owner_repo")
-    pushd "$repo" || return
-    docker compose down --volumes
-    popd || return
-  done
-  popd || return
-}
+#
+#echo "starting services"
+#export FULCIO_METRICS_PORT=2113
+#for owner_repo in "${OWNER_REPOS[@]}"; do
+#    repo=$(basename "$owner_repo")
+#    pushd "$repo" || return
+#    if [[ "$repo" == "fulcio" ]]; then
+#      # create the fulcio_default network by running `compose up`.
+#      docker compose up -d
+#      # then quickly attach the fakeoidc container to the fulcio_default network.
+#      docker network inspect fulcio_default | grep fakeoidc || docker network connect --alias "$HOST" fulcio_default fakeoidc || return
+#    fi
+#    docker compose up --wait || return
+#    popd || return
+#done
+#export TSA_URL="http://${HOST}:3004"
+#popd || return
+#
+#export OIDC_TOKEN="$CLONE_DIR"/token
+#curl -o "$OIDC_TOKEN" "$OIDC_URL"/token || return
+#
+#stop_services() {
+#  pushd ./fakeoidc || return
+#  docker compose down --volumes
+#  popd || return
+#  pushd "$CLONE_DIR" || return
+#  for owner_repo in "${OWNER_REPOS[@]}"; do
+#    repo=$(basename "$owner_repo")
+#    pushd "$repo" || return
+#    docker compose down --volumes
+#    popd || return
+#  done
+#  popd || return
+#}
 
 echo "building trusted root"
 pushd "$CLONE_DIR" || return
-"$CWD"/build-trusted-root.sh \
+bash -x "$CWD"/build-trusted-root.sh \
   --fulcio http://localhost:5555 "$CLONE_DIR/fulcio/config/ctfe/pubkey.pem" \
   --timestamp-url http://localhost:3004 \
   --oidc-url http://localhost:8080 \
