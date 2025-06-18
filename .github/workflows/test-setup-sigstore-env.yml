@@ -30,8 +30,14 @@ jobs:
           tags: cosign
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      - name: test docker image
-        run: docker run cosign help
+      - name: Build and cache fakeoidc
+        uses: docker/build-push-action@v3
+        with:
+          context: ./actions/setup-sigstore-env/fakeoidc
+          load: true
+          tags: fakeoidc
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       - id: setup-sigstore-env
         uses: ./actions/setup-sigstore-env
       - uses: sigstore/cosign-installer@fb28c2b6339dcd94da6e4cbcbc5e888961f6f8c3 # v3.9.0
