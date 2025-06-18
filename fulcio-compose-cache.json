@@ -1,0 +1,15 @@
+{
+    "target": {
+      "service-name": {
+        "cache-from": [
+          "type=gha"
+        ],
+        "cache-to": [
+          "type=gha,mode=max"
+        ],
+        "output": [
+          "type=docker"
+        ]
+      }
+   }
+}

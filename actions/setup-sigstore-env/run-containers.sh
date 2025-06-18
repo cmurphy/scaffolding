@@ -63,21 +63,22 @@ for owner_repo in "${OWNER_REPOS[@]}"; do
     fi
 done
 export CT_LOG_KEY="$CLONE_DIR/fulcio/config/ctfe/pubkey.pem"
-#
-#echo "starting services"
-#export FULCIO_METRICS_PORT=2113
+
+echo "starting services"
+export FULCIO_METRICS_PORT=2113
 #for owner_repo in "${OWNER_REPOS[@]}"; do
-#    repo=$(basename "$owner_repo")
-#    pushd "$repo" || return
-#    if [[ "$repo" == "fulcio" ]]; then
-#      # create the fulcio_default network by running `compose up`.
-#      docker compose up -d
-#      # then quickly attach the fakeoidc container to the fulcio_default network.
-#      docker network inspect fulcio_default | grep fakeoidc || docker network connect --alias "$HOST" fulcio_default fakeoidc || return
-#    fi
-#    docker compose up --wait || return
-#    popd || return
-#done
+for owner_repo in sigstore/fulcio; do
+    repo=$(basename "$owner_repo")
+    pushd "$repo" || return
+    if [[ "$repo" == "fulcio" ]]; then
+      # create the fulcio_default network by running `compose up`.
+      docker compose up -d
+      # then quickly attach the fakeoidc container to the fulcio_default network.
+      docker network inspect fulcio_default | grep fakeoidc || docker network connect --alias "$HOST" fulcio_default fakeoidc || return
+    fi
+    docker compose up --wait || return
+    popd || return
+done
 #export TSA_URL="http://${HOST}:3004"
 #popd || return
 #

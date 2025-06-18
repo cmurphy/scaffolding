@@ -38,6 +38,22 @@ jobs:
           tags: fakeoidc
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: fetch fulcio repo
+        run: |
+          git clone https://github.com/sigstore/fulcio
+          pwd
+          ls
+          ls fulcio
+      - name: cache docker compose images
+        uses: docker/bake-action@master
+        with:
+          source: .
+          workdir: ./fulcio
+          push: false
+          load: true
+          files: |-
+            docker-compose.yml
+            ../fulcio-compose-cache.json
       - id: setup-sigstore-env
         uses: ./actions/setup-sigstore-env
       - uses: sigstore/cosign-installer@fb28c2b6339dcd94da6e4cbcbc5e888961f6f8c3 # v3.9.0
