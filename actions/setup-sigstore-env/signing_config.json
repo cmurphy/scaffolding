@@ -1,0 +1,43 @@
+{
+  "mediaType": "application/vnd.dev.sigstore.signingconfig.v0.2+json",
+  "caUrls": [
+    {
+      "url": "http://localhost:5555",
+      "majorApiVersion": 1,
+      "validFor": { "start": "2025-05-25T00:00:00Z" },
+      "operator": "scaffolding-setup-sigstore-env"
+    }
+  ],
+  "oidcUrls": [
+    {
+      "url": "http://localhost:8080",
+      "majorApiVersion": 1,
+      "validFor": { "start": "2025-05-25T00:00:00Z" },
+      "operator": "scaffolding-setup-sigstore-env"
+    }
+  ],
+  "rekorTlogUrls": [
+    {
+      "url": "http://localhost:3003",
+      "majorApiVersion": 2,
+      "validFor": { "start": "2025-05-25T00:00:00Z" },
+      "operator": "scaffolding-setup-sigstore-env"
+    },
+    {
+      "url": "http://localhost:3000",
+      "majorApiVersion": 1,
+      "validFor": { "start": "2025-05-25T00:00:00Z" },
+      "operator": "scaffolding-setup-sigstore-env"
+    }
+  ],
+  "tsaUrls": [
+    {
+      "url": "http://localhost:3004/api/v1/timestamp",
+      "majorApiVersion": 1,
+      "validFor": { "start": "2025-05-25T00:00:00Z" },
+      "operator": "scaffolding-setup-sigstore-env"
+    }
+  ],
+  "rekorTlogConfig": { "selector": "ANY" },
+  "tsaConfig": { "selector": "ANY" }
+}

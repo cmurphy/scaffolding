@@ -19,6 +19,7 @@
 
 CLONE_DIR="${CLONE_DIR:-$(mktemp -d)}"
 CWD="$(pwd)"
+export COMPOSE_BAKE=true
 
 echo "setting up OIDC provider"
 pushd ./fakeoidc || return
