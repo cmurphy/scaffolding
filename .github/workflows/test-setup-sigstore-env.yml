@@ -53,7 +53,21 @@ jobs:
           load: true
           files: |-
             docker-compose.yml
-            ../fulcio-compose-cache.json
+          set: |
+            fulcio-server.cache-from=type=gha
+            fulcio-server.cache-to=type=gha,mode=max
+            dex-idp.cache-from=type=gha
+            dex-idp.cache-to=type=gha,mode=max
+            ctfe_init.cache-from=type=gha
+            ctfe_init.cache-to=type=gha,mode=max
+            ct_server.cache-from=type=gha
+            ct_server.cache-to=type=gha,mode=max
+            mysql.cache-from=type=gha
+            mysql.cache-to=type=gha,mode=max
+            trillian-log-server.cache-from=type=gha
+            trillian-log-server.cache-to=type=gha,mode=max
+            trillian-log-signer.cache-from=type=gha
+            trillian-log-signer.cache-to=type=gha,mode=max
       - id: setup-sigstore-env
         uses: ./actions/setup-sigstore-env
       - uses: sigstore/cosign-installer@fb28c2b6339dcd94da6e4cbcbc5e888961f6f8c3 # v3.9.0
