@@ -77,8 +77,8 @@ while [[ "$#" -gt 0 ]]; do
             KEYFILE=$WORKDIR/$(basename "$KEYFILE")
 
             FNAME=$(mktemp --tmpdir="$WORKDIR" fulcio_cert.XXXX.pem)
-            #curl --fail -o "$FNAME" "$FULCIO_URL"/api/v1/rootCert
-            #CMD="$CMD --certificate-chain $FNAME --fulcio-uri $FULCIO_URL"
+            curl --fail -o "$FNAME" "$FULCIO_URL"/api/v1/rootCert
+            CMD="$CMD --certificate-chain $FNAME --fulcio-uri $FULCIO_URL"
 
             CMD="$CMD --ctfe-key $KEYFILE"
             ;;
@@ -90,8 +90,8 @@ while [[ "$#" -gt 0 ]]; do
             add_rekor_to_signing_config "$URL" 1
 
             FNAME=$(mktemp --tmpdir="$WORKDIR" rekorv1_pub.XXXX.pem)
-            #curl --fail -o "$FNAME" "$URL"/api/v1/log/publicKey
-            #CMD="$CMD --rekor-key $FNAME --rekor-url $URL"
+            curl --fail -o "$FNAME" "$URL"/api/v1/log/publicKey
+            CMD="$CMD --rekor-key $FNAME --rekor-url $URL"
             ;;
 
         --rekor-v2)
@@ -118,8 +118,8 @@ while [[ "$#" -gt 0 ]]; do
             add_tsa_to_signing_config "$URL"
 
             FNAME=$(mktemp --tmpdir="$WORKDIR" timestamp_certs.XXXX.pem)
-            #curl --fail -o "$FNAME" "$URL"/api/v1/timestamp/certchain
-            #CMD="$CMD --timestamp-certificate-chain $FNAME --timestamp-uri $URL"
+            curl --fail -o "$FNAME" "$URL"/api/v1/timestamp/certchain
+            CMD="$CMD --timestamp-certificate-chain $FNAME --timestamp-uri $URL"
             ;;
 
         --oidc-url)

@@ -67,8 +67,7 @@ export CT_LOG_KEY="$CLONE_DIR/fulcio/config/ctfe/pubkey.pem"
 
 echo "starting services"
 export FULCIO_METRICS_PORT=2113
-#for owner_repo in "${OWNER_REPOS[@]}"; do
-for owner_repo in sigstore/fulcio; do
+for owner_repo in "${OWNER_REPOS[@]}"; do
     repo=$(basename "$owner_repo")
     pushd "$repo" || return
     if [[ "$repo" == "fulcio" ]]; then
@@ -80,25 +79,25 @@ for owner_repo in sigstore/fulcio; do
     docker compose up --wait || return
     popd || return
 done
-#export TSA_URL="http://${HOST}:3004"
-#popd || return
-#
-#export OIDC_TOKEN="$CLONE_DIR"/token
-#curl -o "$OIDC_TOKEN" "$OIDC_URL"/token || return
-#
-#stop_services() {
-#  pushd ./fakeoidc || return
-#  docker compose down --volumes
-#  popd || return
-#  pushd "$CLONE_DIR" || return
-#  for owner_repo in "${OWNER_REPOS[@]}"; do
-#    repo=$(basename "$owner_repo")
-#    pushd "$repo" || return
-#    docker compose down --volumes
-#    popd || return
-#  done
-#  popd || return
-#}
+export TSA_URL="http://${HOST}:3004"
+popd || return
+
+export OIDC_TOKEN="$CLONE_DIR"/token
+curl -o "$OIDC_TOKEN" "$OIDC_URL"/token || return
+
+stop_services() {
+  pushd ./fakeoidc || return
+  docker compose down --volumes
+  popd || return
+  pushd "$CLONE_DIR" || return
+  for owner_repo in "${OWNER_REPOS[@]}"; do
+    repo=$(basename "$owner_repo")
+    pushd "$repo" || return
+    docker compose down --volumes
+    popd || return
+  done
+  popd || return
+}
 
 echo "building trusted root"
 pushd "$CLONE_DIR" || return

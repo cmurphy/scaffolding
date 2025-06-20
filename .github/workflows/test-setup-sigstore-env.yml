@@ -40,15 +40,50 @@ jobs:
           cache-to: type=gha,mode=max
       - name: fetch fulcio repo
         run: |
-          git clone https://github.com/sigstore/fulcio
-          pwd
-          ls
-          ls fulcio
-      - name: cache docker compose images
+          for repo in fulcio rekor rekor-tiles timestamp-authority ; do
+            git clone https://github.com/sigstore/${repo}
+          done
+      - name: cache fulcio docker compose images
         uses: docker/bake-action@master
         with:
           source: .
           workdir: ./fulcio
+          push: false
+          load: true
+          files: |-
+            docker-compose.yml
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
+      - name: cache rekor docker compose images
+        uses: docker/bake-action@master
+        with:
+          source: .
+          workdir: ./rekor
+          push: false
+          load: true
+          files: |-
+            docker-compose.yml
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
+      - name: cache rekor-tiles docker compose images
+        uses: docker/bake-action@master
+        with:
+          source: .
+          workdir: ./rekor-tiles
+          push: false
+          load: true
+          files: |-
+            compose.yml
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
+      - name: cache timestamp-authority docker compose images
+        uses: docker/bake-action@master
+        with:
+          source: .
+          workdir: ./timestamp-authority
           push: false
           load: true
           files: |-
