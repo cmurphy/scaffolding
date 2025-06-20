@@ -60,6 +60,8 @@ jobs:
             dex-idp.cache-to=type=gha,mode=max
             ctfe_init.cache-from=type=gha
             ctfe_init.cache-to=type=gha,mode=max
+            ct_server.cache-from=type=gha
+            ct_server.cache-to=type=gha,mode=max
       - id: setup-sigstore-env
         uses: ./actions/setup-sigstore-env
       - uses: sigstore/cosign-installer@fb28c2b6339dcd94da6e4cbcbc5e888961f6f8c3 # v3.9.0
