@@ -34,9 +34,4 @@ jobs:
             trillian-log-signer.cache-to=type=gha,mode=max
             rekor-server.cache-from=type=gha
             rekor-server.cache-to=type=gha,mode=max
-      - name: docker compose up
-        run: |
-          cp docker-compose.yml rekor/
-          cd rekor
-          docker compose up -d --wait
-
+      - uses: ./actions/test-cache

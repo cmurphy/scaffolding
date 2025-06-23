@@ -1,0 +1,9 @@
+name: test-cache
+runs:
+  using: composite
+  steps:
+    - name: run
+      working-directory: ${{ github.action_path }}
+      shell: bash
+      run: |
+        ./run.sh
