@@ -69,6 +69,9 @@ echo "starting services"
 export FULCIO_METRICS_PORT=2113
 for owner_repo in "${OWNER_REPOS[@]}"; do
     repo=$(basename "$owner_repo")
+    if [[ "$repo" == "rekor" ]];then
+        cp "$CWD"/docker-compose.yml $repo/
+    fi
     pushd "$repo" || return
     if [[ "$repo" == "fulcio" ]]; then
       # create the fulcio_default network by running `compose up`.
