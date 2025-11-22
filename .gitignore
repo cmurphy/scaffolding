@@ -5,6 +5,7 @@ release-*.yaml
 testrelease.yaml
 kind.yaml
 .vscode/*
+./\~
 /cloudsqlproxy
 /createcertchain
 /createcerts

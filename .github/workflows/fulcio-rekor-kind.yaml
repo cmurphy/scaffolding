@@ -3,6 +3,7 @@ name: Fulcio&Rekor E2E Tests
 on:
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 permissions: read-all
 
@@ -108,6 +109,10 @@ jobs:
         echo "demoimage=$demoimage" >> $GITHUB_ENV
         echo Created image $demoimage
         popd
+
+    - name: debug
+      run: |
+        git status
 
     - name: Install scaffolding
       run: |

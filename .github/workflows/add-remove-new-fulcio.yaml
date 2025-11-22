@@ -109,6 +109,10 @@ jobs:
         echo Created image $demoimage
         popd
 
+    - name: debug
+      run: |
+        git status
+
     - name: Install scaffolding
       run: |
         ./hack/setup-scaffolding.sh
