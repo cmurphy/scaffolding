@@ -29,7 +29,8 @@ fi
 
 ko version
 go version
-stat ~/ko || true
+
+mkdir ~/ko
 
 debug() {
     stat ~/ko || true
