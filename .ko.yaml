@@ -96,7 +96,7 @@ builds:
 
   - id: trillian-createtree
     dir: .
-    main: ./cmd/trillian/createtree
+    main: ./tools/trillian/cmd/trillian/createtree
     env:
       - CGO_ENABLED=0
     flags:
@@ -111,7 +111,7 @@ builds:
 
   - id: trillian-createdb
     dir: .
-    main: ./cmd/trillian/createdb
+    main: ./tools/trillian/cmd/trillian/createdb
     env:
       - CGO_ENABLED=0
     flags:
@@ -126,7 +126,7 @@ builds:
 
   - id: trillian-updatetree
     dir: .
-    main: ./cmd/trillian/updatetree
+    main: ./tools/trillian/cmd/trillian/updatetree
     env:
       - CGO_ENABLED=0
     flags:

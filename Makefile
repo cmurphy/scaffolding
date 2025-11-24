@@ -158,15 +158,15 @@ build-rekor-createsecret:
 
 .PHONY: build-trillian-createdb
 build-trillian-createdb:
-	go build -trimpath ./cmd/trillian/createdb
+	go build -trimpath ./tools/trillian/cmd/trillian/createdb
 
 .PHONY: build-trillian-createtree
 build-trillian-createtree:
-	go build -trimpath ./cmd/trillian/createtree
+	go build -trimpath ./tools/trillian/cmd/trillian/createtree
 
 .PHONY: build-trillian-updatetree
 build-trillian-updatetree:
-	go build -trimpath ./cmd/trillian/updatetree
+	go build -trimpath ./tools/trillian/cmd/trillian/updatetree
 
 .PHONY: build-tsa-createcertchain
 build-tsa-createcertchain:
