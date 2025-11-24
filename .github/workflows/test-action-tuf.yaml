@@ -7,7 +7,7 @@ on:
 defaults:
   run:
     shell: bash
-    working-directory: ./
+    working-directory: ./src/github.com/sigstore/scaffolding
 
 concurrency:
   group: test-github-action-with-tuf${{ github.head_ref }}
