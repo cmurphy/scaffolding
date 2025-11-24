@@ -41,6 +41,7 @@ jobs:
       GO111MODULE: on
       GOFLAGS: -ldflags=-s -ldflags=-w
       KO_DOCKER_REPO: registry.local:5000/knative
+      KOCACHE: ~/ko
 
     steps:
     - name: Check out our repo
@@ -59,6 +60,8 @@ jobs:
         check-latest: true
 
     - uses: ko-build/setup-ko@d006021bd0c28d1ce33a07e7943d48b079944c8d # v0.9
+      with:
+        version: v0.15.1
 
     - uses: sigstore/cosign-installer@d7543c93d881b35a8faa02e8e3605f69b7a1ce62 # v3.10.0
 
