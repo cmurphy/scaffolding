@@ -3,6 +3,7 @@ name: Test github action with TUF
 on:
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 defaults:
   run:
