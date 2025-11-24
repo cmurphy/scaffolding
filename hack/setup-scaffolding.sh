@@ -30,8 +30,6 @@ fi
 ko version
 go version
 
-mkdir ~/ko
-
 debug() {
     stat ~/ko || true
     tree ~/ko || true
